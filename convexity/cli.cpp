@@ -1,6 +1,8 @@
 #include "algo.h"
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 int main(int argc, char* argv[]) {
 	string fn_in;
@@ -61,6 +63,7 @@ int main(int argc, char* argv[]) {
 	}
 	cout << "Distances have been calculated" << endl;
 
+	auto start = high_resolution_clock::now();
 	int i = 0;
 	for (auto b : bases) {
 		SubGraph s(net);
@@ -72,6 +75,9 @@ int main(int argc, char* argv[]) {
 		cout << "Hull: " <<i << endl;
 		++i;
 	}
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<seconds>(stop - start);
+	cout << "Time taken to construct the convex hulls: " << duration.count() << " seconds" << endl;
 
 	output.close();
 	return 0;

@@ -57,11 +57,11 @@ def train(model, num_epochs, g, dist, loader, opt, scheduler, log_loss=False, ma
         mfgs = [dgl.to_block(g) for _ in range(len(model.conv))]
         inputs = mfgs[0].srcdata['x']
         emb = model(mfgs, inputs)
-    loss = loss_dist(emb, emb, dist, g.nodes())
-    print(f'Final loss: {loss.item()}')
-    loss = loss_log_dist(emb, emb, dist, g.nodes())
-    print(f'Final loss (log): {loss.item()}')
-    J = l1_loss_dist(emb, emb, dist, g.nodes())
-    print(f'Absolute loss (J): {J}')
+        loss = loss_dist(emb, emb, dist, g.nodes())
+        print(f'Final loss: {loss.item()}')
+        loss = loss_log_dist(emb, emb, dist, g.nodes())
+        print(f'Final loss (log): {loss.item()}')
+        J = l1_loss_dist(emb, emb, dist, g.nodes())
+        print(f'Absolute loss (J): {J}')
 
     return emb
