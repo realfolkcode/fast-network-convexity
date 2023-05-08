@@ -10,18 +10,10 @@ def in_hull_l1(p, simplex_min, simplex_max, threshold):
 
 
 def get_hull_l1(base, emb, threshold=0.):
-    K = emb.shape[1]
-    simplex_min = np.ones(K) * emb[base[0]]
-    simplex_max = np.ones(K) * emb[base[0]]
-    for d in range(K):
-        for i in range(len(base)):
-            if emb[base[i], d] < simplex_min[d]:
-                simplex_min[d] = emb[base[i], d]
-            if emb[base[i], d] > simplex_max[d]:
-                simplex_max[d] = emb[base[i], d]
+    simplex_min = emb[base].min(axis=0) - threshold
+    simplex_max = emb[base].max(axis=0) + threshold
 
-    res = []
-    for i in range(emb.shape[0]):
-        if in_hull_l1(emb[i], simplex_min, simplex_max, threshold):
-            res.append(i)
+    mask = (simplex_min <= emb) * (emb <= simplex_max)
+    mask = np.all(mask, axis=1)
+    res = np.argwhere(mask).reshape(-1)
     return res
