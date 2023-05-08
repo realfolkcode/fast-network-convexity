@@ -4,3 +4,5 @@
 
 * Dmitrii Gavrilev
 * Ilya Makarov
+
+See `fast-network-convexity-dev.ipynb` to run experiments
